@@ -42,8 +42,11 @@ namespace Board.Api.Controllers
         {
             try
             {
-                User user = await _userService.RegisterAsync(req, req.Password);
-                return StatusCode(StatusCodes.Status201Created, user.Adapt<GetUserResponse>());
+                await _userService.RegisterAsync(req, req.Password);
+
+                var (user, token) = await _userService.AuthenticateAsync(req.Email, req.Password);
+
+                return Ok(new { token, user });
             }
             catch (ValidationException ex)
             {
