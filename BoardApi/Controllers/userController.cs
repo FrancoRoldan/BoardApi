@@ -42,11 +42,13 @@ namespace Board.Api.Controllers
         {
             try
             {
-                await _userService.RegisterAsync(req, req.Password);
+                User model = await _userService.RegisterAsync(req, req.Password);
 
                 var (user, token) = await _userService.AuthenticateAsync(req.Email, req.Password);
 
-                return Ok(new { token, user });
+                GetUserResponse userResponse = user.Adapt<GetUserResponse>();
+
+                return Ok(new { token, user = userResponse });
             }
             catch (ValidationException ex)
             {

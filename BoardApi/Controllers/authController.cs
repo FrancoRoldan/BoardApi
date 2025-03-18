@@ -1,6 +1,8 @@
 ﻿using Core.Security;
 using Core.Services;
 using Data.Dtos.Login;
+using Data.Dtos.Users;
+using Mapster;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 
@@ -30,7 +32,9 @@ namespace Board.Api.Controllers
                 if (user == null)
                     return Unauthorized("Usuario o contraseña no válidos.");
 
-                return Ok(new { token, user });
+                GetUserResponse userResponse = user.Adapt<GetUserResponse>();
+
+                return Ok(new { token, user = userResponse });
             }
             catch (ValidationException ex)
             {
