@@ -52,7 +52,7 @@ namespace Core.Services.Boards
         
         public async Task<GetUserBoardsResponse> AddBoard(AddBoardRequest board)
         {
-            var newBoard = await _boardRepository.AddAsync(board.Adapt<Data.Models.Board>());
+            var newBoard = await _boardRepository.AddAsync(board.Adapt<Board>());
 
             return newBoard.Adapt<GetUserBoardsResponse>();
         }
